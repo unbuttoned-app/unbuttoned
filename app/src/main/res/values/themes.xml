@@ -3,7 +3,14 @@
     <style name="Base.Theme.Unbuttoned" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
+
+    <style name="Button.RED" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@android:color/holo_red_dark</item>
+    </style>
+
 
     <style name="Theme.Unbuttoned" parent="Base.Theme.Unbuttoned" />
 </resources>
