@@ -2,4 +2,5 @@
     <string name="app_name">Unbuttoned</string>
     <string name="main_btn">PRESS</string>
     <string name="score_txt">Score</string>
+    <string name="info_button">Get information</string>
 </resources>
