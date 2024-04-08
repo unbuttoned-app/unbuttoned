@@ -6,6 +6,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,7 +28,16 @@ public class MainActivity extends AppCompatActivity {
         scoreLabel = getResources().getString(R.string.score_txt);
 
         setScore(0);
-        press.setOnClickListener(v -> incrementScore());
+        press.setOnClickListener(v -> {
+            incrementScore();
+            int b = 0;
+            if ((score % 2) == 1) {
+                b = 100;
+            }
+            final SpringAnimation spring = new SpringAnimation(press, DynamicAnimation.TRANSLATION_Y, b);
+            spring.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+            spring.start();
+        });
 
         final FloatingActionButton infoButton = findViewById(R.id.info_btn);
         infoButton.setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
