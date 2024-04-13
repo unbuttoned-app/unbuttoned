@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.unbuttoned.Sketches.BasicClick;
 import com.example.unbuttoned.Sketches.EmptyText;
 import com.example.unbuttoned.Sketches.FlyAway;
+import com.example.unbuttoned.Sketches.InvisiblePresser;
 import com.example.unbuttoned.Sketches.JumpingButton;
 import com.example.unbuttoned.Sketches.LongPress;
 import com.example.unbuttoned.Sketches.TextAlignment;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 new Level("Empty text", new EmptyText("Empty", press), 2),
                 new Level("Jump button", new JumpingButton("Jump", press), 3),
                 new Level("Fly away", new FlyAway("FlyAway", press, getOnBackPressedDispatcher()), 10),
-                new Level("Volume key", new VolumeKeyPresser("VolumeKey", press, volume), 20)
+                new Level("Volume key", new VolumeKeyPresser("VolumeKey", press, volume), 20),
+                new Level("Invisible", new InvisiblePresser("Invisible", press), 7)
         );
 
         setScore(0);
