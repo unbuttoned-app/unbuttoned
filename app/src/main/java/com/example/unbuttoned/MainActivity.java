@@ -2,6 +2,7 @@ package com.example.unbuttoned;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -9,10 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unbuttoned.Sketches.BasicClick;
 import com.example.unbuttoned.Sketches.EmptyText;
+import com.example.unbuttoned.Sketches.FlyAway;
 import com.example.unbuttoned.Sketches.JumpingButton;
 import com.example.unbuttoned.Sketches.LongPress;
 import com.example.unbuttoned.Sketches.TextAlignment;
 import com.example.unbuttoned.Sketches.TextResort;
+import com.example.unbuttoned.Sketches.VolumeKeyPresser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Arrays;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     TextView scoreTV;
     String scoreLabel;
     private List<Level> levels;
+    private VolumeObserver volume;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         scoreTV = findViewById(R.id.score_tv);
         scoreLabel = getResources().getString(R.string.score_txt);
 
+        volume = new VolumeObserver();
+
         // Representation of the levels
         levels = Arrays.asList(
                 new Level("Basic click", new BasicClick("BasicClick", press), 1),
@@ -43,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 new Level("Text align", new TextAlignment("Alignment", press), 2),
                 new Level("Resorting", new TextResort("Resorting", press), 2),
                 new Level("Empty text", new EmptyText("Empty", press), 2),
-                new Level("Jump button", new JumpingButton("Jump", press), 3)
+                new Level("Jump button", new JumpingButton("Jump", press), 3),
+                new Level("Fly away", new FlyAway("FlyAway", press, getOnBackPressedDispatcher()), 10),
+                new Level("Volume key", new VolumeKeyPresser("VolumeKey", press, volume), 20)
         );
 
         setScore(0);
@@ -87,5 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 }
         }));
         level.getSketch().startSketch();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        volume.notifyObservers(event);
+        return super.onKeyDown(keyCode, event);
     }
 }
