@@ -20,6 +20,7 @@ public class LongPress extends ButtonSketch {
         button.setOnLongClickListener(v -> {
             Log.d("LongPress", "You did a longpress, great");
             endSketch(true);
+            button.setOnLongClickListener(null);
             return true;
         });
     }
