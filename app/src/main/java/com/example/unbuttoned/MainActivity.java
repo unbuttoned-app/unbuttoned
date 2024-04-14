@@ -9,11 +9,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unbuttoned.Sketches.BasicClick;
+import com.example.unbuttoned.Sketches.DraggablePresser;
 import com.example.unbuttoned.Sketches.EmptyText;
 import com.example.unbuttoned.Sketches.FlyAway;
 import com.example.unbuttoned.Sketches.InvisiblePresser;
 import com.example.unbuttoned.Sketches.JumpingButton;
 import com.example.unbuttoned.Sketches.LongPress;
+import com.example.unbuttoned.Sketches.PopupPresser;
 import com.example.unbuttoned.Sketches.TextAlignment;
 import com.example.unbuttoned.Sketches.TextResort;
 import com.example.unbuttoned.Sketches.VolumeKeyPresser;
@@ -53,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 new Level("Jump button", new JumpingButton("Jump", press), 3),
                 new Level("Fly away", new FlyAway("FlyAway", press, getOnBackPressedDispatcher()), 10),
                 new Level("Volume key", new VolumeKeyPresser("VolumeKey", press, volume), 20),
-                new Level("Invisible", new InvisiblePresser("Invisible", press), 7)
+                new Level("Invisible", new InvisiblePresser("Invisible", press), 7),
+                new Level("Drag button", new DraggablePresser("Drag", press), 10),
+                new Level("Popup", new PopupPresser("Popup", press, getApplicationContext()), 20)
         );
 
         setScore(0);

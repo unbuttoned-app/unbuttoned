@@ -3,4 +3,7 @@
     <string name="main_btn">PRESS</string>
     <string name="score_txt">Score</string>
     <string name="info_button">Get information</string>
+    <string name="abmenu">A or B?</string>
+    <string name="itematxt">A</string>
+    <string name="itembtext">B</string>
 </resources>
