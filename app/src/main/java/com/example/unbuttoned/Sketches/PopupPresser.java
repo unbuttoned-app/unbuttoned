@@ -26,17 +26,14 @@ public class PopupPresser extends ButtonSketch {
         super.startSketch();
         popupMenu = new PopupMenu(ctx, button);
         popupMenu.getMenuInflater().inflate(R.menu.button_popup_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                final int clickedId = item.getItemId();
-                if (clickedId == R.id.itemA) {
-                    endSketch(isA());
-                } else if (clickedId == R.id.itemB) {
-                    endSketch(!isA());
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            final int clickedId = item.getItemId();
+            if (clickedId == R.id.itemA) {
+                endSketch(isA());
+            } else if (clickedId == R.id.itemB) {
+                endSketch(!isA());
             }
+            return false;
         });
     }
 
