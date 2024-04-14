@@ -14,12 +14,22 @@ import com.example.unbuttoned.VolumeObserver;
 public class VolumeKeyPresser extends ButtonSketch {
 
     final private VolumeObserver volumeObserver;
-    final private IOnVolumeEvent volumeEvent;
+    private IOnVolumeEvent volumeEvent;
     public VolumeKeyPresser(String name, Button button, VolumeObserver volumeObserver) {
         super(name, button);
 
         this.volumeObserver = volumeObserver;
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        button.setEnabled(false); // gray
+    }
+
+    @Override
+    public void startSketch() {
+        super.startSketch();
         this.volumeEvent = (KeyEvent ev) -> {
             final int code = ev.getKeyCode();
             if (code == KeyEvent.KEYCODE_VOLUME_DOWN) {
@@ -28,11 +38,6 @@ public class VolumeKeyPresser extends ButtonSketch {
         };
 
         volumeObserver.addOnVolumeEventCb(volumeEvent);
-    }
-
-    @Override
-    public void onClick(View v) {
-        button.setEnabled(false); // gray
     }
 
     @Override
