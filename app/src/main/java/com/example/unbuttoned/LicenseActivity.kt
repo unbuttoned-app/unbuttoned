@@ -11,7 +11,7 @@ import com.example.unbuttoned.ui.theme.UnbuttonedTheme
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 
 
-class AboutActivity  : ComponentActivity() {
+class LicenseActivity  : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

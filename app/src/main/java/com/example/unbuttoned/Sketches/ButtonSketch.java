@@ -13,6 +13,7 @@ import android.widget.Button;
 abstract public class ButtonSketch implements View.OnClickListener {
     final protected String name;
     final protected Button button;
+    private boolean active = false;
     private IOnCompletion onCompletion;
 
     public ButtonSketch(String name, Button button) {
@@ -23,9 +24,11 @@ abstract public class ButtonSketch implements View.OnClickListener {
     public void startSketch() {
         Log.d("ButtonSketch", "Register click callback");
         button.setOnClickListener(this);
+        active = true;
     }
     protected void endSketch(boolean successful) {
         button.setOnClickListener(null);
+        active = false;
         onCompletion.onCompletion(successful);
     }
 
@@ -33,5 +36,9 @@ abstract public class ButtonSketch implements View.OnClickListener {
 
     public void setOnSketchEnded(final IOnCompletion cb) {
         onCompletion = cb;
+    }
+
+    protected boolean isActive() {
+        return active;
     }
 }

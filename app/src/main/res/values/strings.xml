@@ -6,4 +6,8 @@
     <string name="abmenu">A or B?</string>
     <string name="itematxt">A</string>
     <string name="itembtext">B</string>
+    <string name="welcomeTextHeader">Welcome to the Unbuttoned app. We hope you enjoy it!</string>
+    <string name="licenseDialog">OpenSource license info</string>
+    <string name="highScoreInfo">See your high score below, you can reset it, if you like:</string>
+    <string name="resetHighScoreText">Reset high score</string>
 </resources>

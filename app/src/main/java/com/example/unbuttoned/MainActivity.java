@@ -6,6 +6,10 @@ import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unbuttoned.Sketches.BasicClick;
@@ -19,6 +23,7 @@ import com.example.unbuttoned.Sketches.PopupPresser;
 import com.example.unbuttoned.Sketches.TextAlignment;
 import com.example.unbuttoned.Sketches.TextResort;
 import com.example.unbuttoned.Sketches.VolumeKeyPresser;
+import com.example.unbuttoned.persistence.UnbuttonedPersistence;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Arrays;
@@ -28,15 +33,21 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
-    int score = 0;
-    TextView scoreTV;
-    String scoreLabel;
+    private int score = 0;
+    private TextView scoreTV;
+    private String scoreLabel;
     private List<Level> levels;
     private VolumeObserver volume;
+    private UnbuttonedPersistence persistence;
+
+    ActivityResultLauncher<Intent> startInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        persistence = new UnbuttonedPersistence(getApplicationContext());
 
 
         final Button press = findViewById(R.id.main_btn);
@@ -63,14 +74,40 @@ public class MainActivity extends AppCompatActivity {
         setScore(0);
 
         final FloatingActionButton infoButton = findViewById(R.id.info_btn);
-        infoButton.setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
 
+
+        startInfo = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+                if (o != null && o.getResultCode() == RESULT_OK) {
+                    if (o.getData() != null && o.getData().getExtras() != null) {
+                        final boolean reset = o.getData().getExtras().getBoolean(AppInfoActivity.RESET_HSCORE);
+                        if (reset) {
+                            Log.d("Main", "Resetting");
+                            persistence.setHighScore(0);
+                        }
+                    }
+                }
+            }
+        });
+
+        Intent infoIntent = new Intent(MainActivity.this, AppInfoActivity.class);
+
+        infoButton.setOnClickListener(v ->{
+            infoIntent.putExtra(AppInfoActivity.HSCORE_VALUE, persistence.getHighScore());
+            startInfo.launch(infoIntent);
+        });
         runLevel(0);
     }
 
+    private void updateScore(int delta) {
+        Log.d("main", "score before " + this.score + " delta " + delta);
+        final int newScore = this.score + delta;
+        setScore(newScore);
+    }
+
     private void setScore(int score) {
-        Log.d("main", "score before " + this.score + " delta " + score);
-        this.score += score;
+        this.score = score;
         final String txt = scoreLabel.concat(": " + this.score);
         scoreTV.setText(txt);
     }
@@ -81,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             Toast
                     .makeText(this, "Congratulations, well done", Toast.LENGTH_LONG)
                     .show();
+            persistence.updateHighScore(this.score);
             return;
         }
         final Level level = levels.get(iLvl);
@@ -90,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("main","Level "
                     + level.getName() + " completed successfuly?: " + successful);
                 if (!successful) {
-                    setScore(-pts);
+                    updateScore(-pts);
                     runLevel(iLvl); // redo level
                     Toast
                         .makeText(this, "You missed it, try again", Toast.LENGTH_SHORT)
                         .show();
                 } else {
-                    setScore(pts);
+                    updateScore(pts);
                     runLevel(iLvl+1); // next level
                 }
         }));
