@@ -31,3 +31,4 @@ jobs:
         with:
           name: Unbuttoned-App.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      - run: git clone https://github.com/unbuttoned-app/unbuttoned-releases.git
