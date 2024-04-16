@@ -37,6 +37,6 @@ jobs:
       - run: cd /tmp/unbuttoned-releases && cp /tmp/Unbuttoned-App.apk repo/
       - run: cd /tmp/unbuttoned-releases && echo ${CONFIG_B64} | base64 --decode > config.yml
       - run: cd /tmp/unbuttoned-releases && echo ${REPO_KS_B64} | base64 --decode > keystore.p12 
-      - run: cd /tmp/unbuttoned-releases && fdroid update -c && git config user.name root && git config user.email "root@localhost"
+      - run: cd /tmp/unbuttoned-releases && rm -f repo/.NOTE && fdroid update -c && git config user.name root && git config user.email "root@localhost"
       - run: cd /tmp/unbuttoned-releases && git add repo && git commit -m "update" && git push origin main
 
