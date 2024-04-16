@@ -31,4 +31,15 @@ jobs:
         with:
           name: Unbuttoned-App.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
-      - run: git clone https://github.com/unbuttoned-app/unbuttoned-releases.git
+      - run: cd /tmp && git clone https://github.com/unbuttoned-app/unbuttoned-releases.git
+      - run: cp ${{steps.sign_app.outputs.signedReleaseFile}} Unbuttoned-App.apk
+      - run: sudo apt update && sudo apt install fdroidserver
+      - run: cd unbuttoned-releases && cp ../Unbuttoned-App.apk repo/
+      - run: echo ${CONFIG_B64} | base64 > config.yml
+      - run: ehco ${REPO_KS_B64} | base64 > keystore.p12 
+      - run: fdroid update -c
+      - run: git config user.name root && git config user.email "root@localhost"
+      - run: git add repo
+      - run: git commit -m "update"
+      - run: git push origin main
+
