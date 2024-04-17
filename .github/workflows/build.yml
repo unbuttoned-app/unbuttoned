@@ -31,3 +31,13 @@ jobs:
         with:
           name: Unbuttoned-App.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      - run: echo "${{ secrets.DEPLOY_KEY }}" > /tmp/deploy && chmod 0600 /tmp/deploy
+      - run: cd /tmp && GIT_SSH_COMMAND="ssh -i /tmp/deploy -oStrictHostKeyChecking=no" git clone git@github.com:unbuttoned-app/unbuttoned-releases.git
+      - run: cp ${{steps.sign_app.outputs.signedReleaseFile}} /tmp/Unbuttoned-App.apk
+      - run: sudo apt update && sudo apt install fdroidserver
+      - run: cd /tmp/unbuttoned-releases && cp /tmp/Unbuttoned-App.apk fdroid/repo/
+      - run: cd /tmp/unbuttoned-releases/fdroid && echo "${{ secrets.CONFIG_B64}}" | base64 --decode > config.yml
+      - run: cd /tmp/unbuttoned-releases/fdroid && echo "${{ secrets.REPO_KS_B64}}" | base64 --decode > keystore.p12
+      - run: cd /tmp/unbuttoned-releases && rm -f repo/.NOTE && cd fdroid && fdroid update -c && git config user.name root && git config user.email "root@localhost"
+      - run: cd /tmp/unbuttoned-releases && git add fdroid && git commit -m "update" && GIT_SSH_COMMAND="ssh -i /tmp/deploy -oStrictHostKeyChecking=no" git push origin main
+
