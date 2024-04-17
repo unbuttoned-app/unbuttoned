@@ -3,6 +3,7 @@ package com.example.unbuttoned.Sketches;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * @author julian
@@ -13,17 +14,23 @@ import android.widget.Button;
 abstract public class ButtonSketch implements View.OnClickListener {
     final protected String name;
     final protected Button button;
+    final protected TextView textView;
     private boolean active = false;
     private IOnCompletion onCompletion;
 
-    public ButtonSketch(String name, Button button) {
+    static float defaultTextSize = 20;
+
+    public ButtonSketch(String name, Button button, TextView textView) {
         this.name = name;
         this.button = button;
+        this.textView = textView;
     }
 
     public void startSketch() {
         Log.d("ButtonSketch", "Register click callback");
         button.setOnClickListener(this);
+        //textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, defaultTextSize);
+        textView.setText("");
         active = true;
     }
     protected void endSketch(boolean successful) {

@@ -1,8 +1,12 @@
 package com.example.unbuttoned.Sketches;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.unbuttoned.R;
 
 /**
  * @author julian
@@ -14,14 +18,22 @@ public class TextResort extends ButtonSketch {
     private String origText;
     private String resorted = "";
 
-    public TextResort(String name, Button button) {
-        super(name, button);
+    public TextResort(String name, Button button, TextView textView) {
+        super(name, button, textView);
     }
 
     @Override
     public void startSketch() {
         super.startSketch();
         origText = button.getText().toString();
+        textView.setText(R.string.if_there_is_no_press_you_wouldn_t_press_it_right);
+    }
+
+    @Override
+    public void endSketch(boolean successful){
+        super.endSketch(successful);
+        textView.setText("WHYYYY\nIt hurts");
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, defaultTextSize*2);
     }
 
     @Override

@@ -2,12 +2,12 @@ package com.example.unbuttoned;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Arrays;
 import java.util.List;
-import android.util.Log;
-import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -49,26 +47,33 @@ public class MainActivity extends AppCompatActivity {
 
         persistence = new UnbuttonedPersistence(getApplicationContext());
 
-
+        final TextView text = findViewById(R.id.showText);
         final Button press = findViewById(R.id.main_btn);
         scoreTV = findViewById(R.id.score_tv);
         scoreLabel = getResources().getString(R.string.score_txt);
+
+        text.setTextColor(0xFFFF3300);
 
         volume = new VolumeObserver();
 
         // Representation of the levels
         levels = Arrays.asList(
-                new Level("Basic click", new BasicClick("BasicClick", press), 1),
-                new Level("Long press", new LongPress("LongPress", press), 5),
-                new Level("Text align", new TextAlignment("Alignment", press), 2),
-                new Level("Resorting", new TextResort("Resorting", press), 2),
-                new Level("Empty text", new EmptyText("Empty", press), 2),
-                new Level("Jump button", new JumpingButton("Jump", press), 3),
-                new Level("Fly away", new FlyAway("FlyAway", press, getOnBackPressedDispatcher()), 10),
-                new Level("Volume key", new VolumeKeyPresser("VolumeKey", press, volume), 20),
-                new Level("Invisible", new InvisiblePresser("Invisible", press), 7),
-                new Level("Drag button", new DraggablePresser("Drag", press), 10),
-                new Level("Popup", new PopupPresser("Popup", press, getApplicationContext()), 20)
+
+                new Level("Basic click", new BasicClick("BasicClick", press, text), 1),
+                new Level("Basic click", new BasicClick("BasicClick", press, text), 1),
+                new Level("Basic click", new BasicClick("BasicClick", press, text), 1),
+                new Level("Long press", new LongPress("LongPress", press, text), 5),
+                new Level("Text align", new TextAlignment("Alignment", press, text), 2),
+                new Level("Invisible", new InvisiblePresser("Invisible", press, text), 7),
+                new Level("Resorting", new TextResort("Resorting", press, text), 2),
+                new Level("Empty text", new EmptyText("Empty", press, text), 2),
+                new Level("Jump button", new JumpingButton("Jump", press, text), 3),
+                new Level("Fly away", new FlyAway("FlyAway", press, text, getOnBackPressedDispatcher()), 10),
+                new Level("Volume key", new VolumeKeyPresser("VolumeKey", press, text, volume), 20),
+                new Level("Invisible", new InvisiblePresser("Invisible", press, text), 7),
+                new Level("Drag button", new DraggablePresser("Drag", press, text), 10),
+                new Level("Popup", new PopupPresser("Popup", press, text, getApplicationContext()), 20),
+                new Level("Invisible", new InvisiblePresser("Invisible", press, text), 7)
         );
 
         setScore(0);
@@ -76,16 +81,13 @@ public class MainActivity extends AppCompatActivity {
         final FloatingActionButton infoButton = findViewById(R.id.info_btn);
 
 
-        startInfo = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult o) {
-                if (o != null && o.getResultCode() == RESULT_OK) {
-                    if (o.getData() != null && o.getData().getExtras() != null) {
-                        final boolean reset = o.getData().getExtras().getBoolean(AppInfoActivity.RESET_HSCORE);
-                        if (reset) {
-                            Log.d("Main", "Resetting");
-                            persistence.setHighScore(0);
-                        }
+        startInfo = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {
+            if (o != null && o.getResultCode() == RESULT_OK) {
+                if (o.getData() != null && o.getData().getExtras() != null) {
+                    final boolean reset = o.getData().getExtras().getBoolean(AppInfoActivity.RESET_HSCORE);
+                    if (reset) {
+                        Log.d("Main", "Resetting");
+                        persistence.setHighScore(0);
                     }
                 }
             }
@@ -118,6 +120,10 @@ public class MainActivity extends AppCompatActivity {
             Toast
                     .makeText(this, "Congratulations, well done", Toast.LENGTH_LONG)
                     .show();
+            findViewById(R.id.main_btn).setEnabled(false);
+            TextView textView = findViewById(R.id.showText);
+            textView.setText(R.string.i_am_done);
+            textView.setTextColor(0xFF00FF00);
             persistence.updateHighScore(this.score);
             return;
         }

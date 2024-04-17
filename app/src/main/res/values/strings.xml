@@ -10,4 +10,12 @@
     <string name="licenseDialog">OpenSource license info</string>
     <string name="highScoreInfo">See your high score below, you can reset it, if you like:</string>
     <string name="resetHighScoreText">Reset high score</string>
+    <string name="don_t_press">DON\'T PRESS</string>
+    <string name="find_me_if_you_can">Find me if you can!</string>
+    <string name="choose_wisely">Choose wisely</string>
+    <string name="i_bet_you_cant_hold_on_for_long_enough">I bet you can\'t hold on for long enough</string>
+    <string name="if_there_is_no_press_you_wouldn_t_press_it_right">If there is no \'Press\' you wouldn\'t press it, right?</string>
+    <string name="your_music_down_here_is_way_too_loud">Your music down here is way too loud!</string>
+    <string name="you_didn_t_expect_that">You didn\'t expect that</string>
+    <string name="i_am_done">I AM DONE!</string>
 </resources>
