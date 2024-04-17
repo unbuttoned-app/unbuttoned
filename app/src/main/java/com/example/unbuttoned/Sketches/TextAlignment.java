@@ -3,6 +3,7 @@ package com.example.unbuttoned.Sketches;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +17,8 @@ public class TextAlignment extends ButtonSketch{
 
     final List<Integer> alignments;
     int origAlignment;
-    public TextAlignment(String name, Button button) {
-        super(name, button);
+    public TextAlignment(String name, Button button, TextView textView) {
+        super(name, button, textView);
         alignments = new ArrayList<>(Arrays.asList(
                 View.TEXT_ALIGNMENT_TEXT_START,
                 View.TEXT_ALIGNMENT_TEXT_END
@@ -27,6 +28,7 @@ public class TextAlignment extends ButtonSketch{
     @Override
     public void startSketch() {
         super.startSketch();
+        textView.setText("");
         origAlignment = button.getTextAlignment();
     }
 

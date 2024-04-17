@@ -2,6 +2,7 @@ package com.example.unbuttoned.Sketches;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * @author julian
@@ -11,10 +12,9 @@ public class EmptyText extends ButtonSketch {
 
     String originalText = "";
     int count;
-    public EmptyText(String name, Button button) {
-        super(name, button);
+    public EmptyText(String name, Button button, TextView textView) {
+        super(name, button, textView);
     }
-
     @Override
     public void startSketch() {
         super.startSketch();

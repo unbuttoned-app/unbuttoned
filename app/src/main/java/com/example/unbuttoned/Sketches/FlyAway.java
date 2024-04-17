@@ -2,6 +2,7 @@ package com.example.unbuttoned.Sketches;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 import androidx.activity.OnBackPressedCallback;
@@ -11,8 +12,8 @@ public class FlyAway extends ButtonSketch {
 
 
     final private OnBackPressedCallback backPress;
-    public FlyAway(String name, Button button, OnBackPressedDispatcher backButtonDispatcher) {
-        super(name, button);
+    public FlyAway(String name, Button button, TextView textView, OnBackPressedDispatcher backButtonDispatcher) {
+        super(name, button, textView);
 
 
         backPress = new OnBackPressedCallback(true) {
@@ -36,6 +37,7 @@ public class FlyAway extends ButtonSketch {
     @Override
     public void onClick(View v) {
         flyButtonAway();
+        textView.setText("Try and catch me if you can!\n You can't get me BACK!");
     }
 
     private void flyButtonAway() {

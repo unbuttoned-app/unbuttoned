@@ -5,14 +5,15 @@ import android.content.ClipData;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * @author julian
  * Allows dragging the button
  */
 public class DraggablePresser extends ButtonSketch{
-    public DraggablePresser(String name, Button button) {
-        super(name, button);
+    public DraggablePresser(String name, Button button, TextView textView) {
+        super(name, button, textView);
     }
 
     @SuppressLint("ClickableViewAccessibility")
